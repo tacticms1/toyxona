@@ -160,7 +160,7 @@ const HallDetails = () => {
         <div className="space-y-6">
           <div className="h-[400px] rounded-3xl overflow-hidden shadow-2xl relative group">
             <img 
-              src={hall.images[0] ? `${API_URL}${hall.images[0]}` : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
+              src={hall.images[0] ? (hall.images[0].startsWith('http') ? hall.images[0] : `${API_URL}${hall.images[0]}`) : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               alt={hall.name}
             />

@@ -23,11 +23,14 @@ const HallCard = ({ hall }) => {
         {/* Image Container */}
         <div className="relative h-80 overflow-hidden bg-slate-900">
           <motion.img 
-            src={hall.images[0] ? `${API_URL}${hall.images[0]}` : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
+            src={hall.images[0] ? (hall.images[0].startsWith('http') ? hall.images[0] : `${API_URL}${hall.images[0]}`) : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
             alt={hall.name}
             loading="lazy"
             decoding="async"
             className="w-full h-full object-cover will-change-transform"
+            onError={(e) => {
+              e.target.src = 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80';
+            }}
             animate={isHovered ? { scale: 1.1 } : { scale: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           />
