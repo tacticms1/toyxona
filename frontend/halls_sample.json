@@ -1,0 +1,743 @@
+[
+  {
+    "id": "affb7bbc-e979-4ae7-aa7d-537fa29f5a52",
+    "name": "Saroy Toyxona",
+    "description": "An'anaviy o'zbek uslubida yasalgan hashamatli to'yxona. 200 kishilik sig'im, qo'l qilingan dekorasyon.",
+    "address": "Abdulla Kodiri ko'chasi, 78",
+    "district": "Mirzo Ulugbek",
+    "capacity": 200,
+    "price": 120000,
+    "phone": "+998 93 333 4444",
+    "images": [
+      "/uploads/Без названия (13).jfif",
+      "/uploads/Без названия (4).jfif",
+      "/uploads/Без названия.jfif"
+    ],
+    "singers": [
+      {
+        "name": "Mehridor Tohiri",
+        "price": 3500000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 900000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Standart Menyu",
+        "items": [
+          "Plov",
+          "Kabob",
+          "Somsa"
+        ],
+        "price": 120000
+      }
+    ],
+    "cars": [
+      {
+        "name": "Chevrolet Malibu",
+        "price": 1000000
+      }
+    ],
+    "status": "tasdiqlangan",
+    "ownerId": "e1325359-7289-4d0b-a229-ae951e27bb6d",
+    "createdAt": "2026-05-31T14:03:52.514Z",
+    "updatedAt": "2026-05-31T18:55:25.962Z",
+    "owner": {
+      "firstName": "Rustam",
+      "lastName": "Aminov",
+      "email": "rustam@toyxona.uz"
+    }
+  },
+  {
+    "id": "3c097268-4fcc-4a3b-8ede-139daaf4cb3d",
+    "name": "Crystal Palace",
+    "description": "Zamonaviy va elegan to'yxona. 300 kishilik sig'im, air-conditioning, WiFi, katta parkingga ega.",
+    "address": "Bobur ko'chasi, 45",
+    "district": "Chilonzor",
+    "capacity": 300,
+    "price": 180000,
+    "phone": "+998 91 222 3333",
+    "images": [
+      "/uploads/Без названия.jfif",
+      "/uploads/OIP (1).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Nilufar Usmonova",
+        "price": 4000000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 800000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "VIP Menyu",
+        "items": [
+          "Plov",
+          "Kabob",
+          "Manti",
+          "Shorva"
+        ],
+        "price": 400000
+      }
+    ],
+    "cars": [
+      {
+        "name": "Toyota Camry",
+        "price": 1200000
+      }
+    ],
+    "status": "tasdiqlangan",
+    "ownerId": "dc533fce-4064-4fae-a6f5-b28dbd3bf6b1",
+    "createdAt": "2026-05-31T14:03:52.514Z",
+    "updatedAt": "2026-05-31T18:55:26.218Z",
+    "owner": {
+      "firstName": "Nodira",
+      "lastName": "Qurbanova",
+      "email": "nodira@toyxona.uz"
+    }
+  },
+  {
+    "id": "a531a9d6-edc0-487f-8833-f726090d737d",
+    "name": "Royal Garden",
+    "description": "Ochiq havoda to'yxona. 150 kishilik sig'im. Sabzi-gullar bilan bezatilgan, bahor-yozda eng chiroyli.",
+    "address": "Nukus ko'chasi, 34",
+    "district": "Mirobod",
+    "capacity": 150,
+    "price": 100000,
+    "phone": "+998 94 444 5555",
+    "images": [
+      "/uploads/Без названия (15).jfif",
+      "/uploads/Vb9XP4db7Htp_grkAz3EPUy5KU5ycWtjC_x6D1_WQbSRjNFT804zKDPCxWMgA4p2oHKexoCF4TOvGN2l143Fs_Yvq3FLlie2THkT1VRR4v67iG2GH2JEY1KnVofQfBp-Ke9nq_VSk8oOE7SIsAlJ-itFzkTQQ4FR0JlSyzyzX9k4r2vsMaZbni0mahRUVsg4.jfif",
+      "/uploads/Без названия (11).jfif"
+    ],
+    "singers": [],
+    "karnaySurnay": {
+      "price": 600000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Oqaida Menyu",
+        "items": [
+          "Osh",
+          "Kabob"
+        ],
+        "price": 100000
+      }
+    ],
+    "cars": [],
+    "status": "tasdiqlangan",
+    "ownerId": "4fbbad82-703a-495f-94c8-e68085f80775",
+    "createdAt": "2026-05-31T14:03:52.514Z",
+    "updatedAt": "2026-05-31T18:55:26.472Z",
+    "owner": {
+      "firstName": "Dilfuza",
+      "lastName": "Hasanova",
+      "email": "dilfuza@toyxona.uz"
+    }
+  },
+  {
+    "id": "b845853a-9056-4985-804e-479f17c1869f",
+    "name": "Modern Studio",
+    "description": "Kichik va intim to'yxona. 100 kishilik sig'im. Multimedia ta'minoti mavjud.",
+    "address": "Turon ko'chasi, 56",
+    "district": "Yakkasaroy",
+    "capacity": 100,
+    "price": 80000,
+    "phone": "+998 95 555 6666",
+    "images": [
+      "/uploads/Без названия.jfif"
+    ],
+    "singers": [],
+    "karnaySurnay": {
+      "price": 0,
+      "available": false
+    },
+    "menus": [
+      {
+        "name": "Chuchvara Menyu",
+        "items": [
+          "Chuchvara",
+          "Kabob",
+          "Somsa"
+        ],
+        "price": 80000
+      }
+    ],
+    "cars": [],
+    "status": "tasdiqlangan",
+    "ownerId": "e26656db-2b61-4ffd-8a77-92ae4299199c",
+    "createdAt": "2026-05-31T14:03:52.515Z",
+    "updatedAt": "2026-05-31T18:55:26.726Z",
+    "owner": {
+      "firstName": "Karim",
+      "lastName": "Ergashov",
+      "email": "karim@toyxona.uz"
+    }
+  },
+  {
+    "id": "00d2072e-72f7-4db3-b97d-f05a7dac49c7",
+    "name": "Qo'qon Saroy",
+    "description": "Qo'qon sha'ri uslubida yasalgan to'yxona. 220 kishilik sig'im, qadimiy dekorasyon.",
+    "address": "Islom Karimov ko'chasi, 45",
+    "district": "Uchtepa",
+    "capacity": 220,
+    "price": 130000,
+    "phone": "+998 90 999 0000",
+    "images": [
+      "/uploads/Без названия (9).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Tolib Ismailov",
+        "price": 2500000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 650000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Farg'ona Menyu",
+        "items": [
+          "Lag'mon",
+          "Somsa",
+          "Kabob"
+        ],
+        "price": 110000
+      }
+    ],
+    "cars": [],
+    "status": "tasdiqlangan",
+    "ownerId": "8b1a7c2a-9454-4a8e-abb6-a53e12ebcceb",
+    "createdAt": "2026-05-31T14:03:52.515Z",
+    "updatedAt": "2026-05-31T18:55:27.234Z",
+    "owner": {
+      "firstName": "Alisher",
+      "lastName": "Qoraboyev",
+      "email": "alisher@toyxona.uz"
+    }
+  },
+  {
+    "id": "6400da3a-3aa9-4f01-b2b1-15227ffcf904",
+    "name": "Green Paradise",
+    "description": "Tabiat ichida to'yxona. 180 kishilik sig'im. Bir necha go'zal bosh va platforma bor.",
+    "address": "Yangi Shahar ko'chasi, 23",
+    "district": "Olmazor",
+    "capacity": 180,
+    "price": 140000,
+    "phone": "+998 97 777 8888",
+    "images": [
+      "/uploads/Без названия (3).jfif",
+      "/uploads/Без названия (3).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Umidjon Hasanov",
+        "price": 3000000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 700000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Yevropa Menyu",
+        "items": [
+          "Biftek",
+          "Kabob",
+          "Somsa",
+          "Salat"
+        ],
+        "price": 200000
+      }
+    ],
+    "cars": [
+      {
+        "name": "Honda Accord",
+        "price": 900000
+      }
+    ],
+    "status": "tasdiqlangan",
+    "ownerId": "b4321e5b-4590-49ba-97ec-958cc96243ed",
+    "createdAt": "2026-05-31T14:03:52.515Z",
+    "updatedAt": "2026-05-31T18:55:27.488Z",
+    "owner": {
+      "firstName": "Sergey",
+      "lastName": "Volkov",
+      "email": "sergey@toyxona.uz"
+    }
+  },
+  {
+    "id": "70db5b17-2859-4a71-b160-3212dd24e75e",
+    "name": "Bahor Hall",
+    "description": "Yangi va taraqqiyotchi to'yxona. 250 kishilik sig'im, zamonaviy audio-visual ta'minoti.",
+    "address": "Farobiy ko'chasi, 67",
+    "district": "Sergeli",
+    "capacity": 250,
+    "price": 160000,
+    "phone": "+998 98 888 9999",
+    "images": [
+      "/uploads/Без названия (5).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Nodira Rahmatova",
+        "price": 3500000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 750000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Kombinatsiya Menyu",
+        "items": [
+          "Plov",
+          "Somsa",
+          "Kabob",
+          "Chuchvara"
+        ],
+        "price": 180000
+      }
+    ],
+    "cars": [],
+    "status": "tasdiqlangan",
+    "ownerId": "d3a10c04-30a1-44a8-bde4-d280137248ad",
+    "createdAt": "2026-05-31T14:03:52.515Z",
+    "updatedAt": "2026-05-31T18:55:27.746Z",
+    "owner": {
+      "firstName": "Gulnora",
+      "lastName": "Maxmudova",
+      "email": "gulnora@toyxona.uz"
+    }
+  },
+  {
+    "id": "ffbbd220-ef4c-44fa-bd01-2268406c73ea",
+    "name": "Zarafshan",
+    "description": "Zarafshan daryosi sohilida to'yxona. 280 kishilik sig'im, suvga qaragan platforma.",
+    "address": "Bukhoro Ko'chasi, 89",
+    "district": "Bektemir",
+    "capacity": 280,
+    "price": 175000,
+    "phone": "+998 91 111 1111",
+    "images": [
+      "/uploads/Без названия (10).jfif",
+      "/uploads/Без названия (6).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Mohid Rasulov",
+        "price": 3800000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 850000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Bukhoro Menyu",
+        "items": [
+          "Plov",
+          "Kabob",
+          "Qozon Kabob",
+          "Somsa"
+        ],
+        "price": 160000
+      }
+    ],
+    "cars": [
+      {
+        "name": "Mazda 6",
+        "price": 1100000
+      }
+    ],
+    "status": "tasdiqlangan",
+    "ownerId": "e71b2992-80bd-4941-8268-13515951b71a",
+    "createdAt": "2026-05-31T14:03:52.515Z",
+    "updatedAt": "2026-05-31T18:55:28.000Z",
+    "owner": {
+      "firstName": "Feruza",
+      "lastName": "Muhammadiyeva",
+      "email": "feruza@toyxona.uz"
+    }
+  },
+  {
+    "id": "4b07fade-cb0b-4c61-9df8-42a197a32083",
+    "name": "Yunus Rajabiy",
+    "description": "Famousi shoir Yunus Rajabiyga bag'ishlangan to'yxona. 200 kishilik sig'im, mehnatsevurlik dekorasyon.",
+    "address": "Temur Ko'chasi, 22",
+    "district": "Yunusobod",
+    "capacity": 200,
+    "price": 125000,
+    "phone": "+998 93 333 3333",
+    "images": [
+      "/uploads/Без названия (16).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Faiz Muhammad",
+        "price": 3200000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 0,
+      "available": false
+    },
+    "menus": [
+      {
+        "name": "Amaliy Menyu",
+        "items": [
+          "Plov",
+          "Somsa",
+          "Kabob"
+        ],
+        "price": 115000
+      }
+    ],
+    "cars": [],
+    "status": "tasdiqlangan",
+    "ownerId": "dc533fce-4064-4fae-a6f5-b28dbd3bf6b1",
+    "createdAt": "2026-05-31T14:03:52.516Z",
+    "updatedAt": "2026-05-31T18:55:28.509Z",
+    "owner": {
+      "firstName": "Nodira",
+      "lastName": "Qurbanova",
+      "email": "nodira@toyxona.uz"
+    }
+  },
+  {
+    "id": "65ae9421-3f0c-4d62-800a-6e08dae6698d",
+    "name": "Farg'ona Qarorat",
+    "description": "Farg'ona vodiysi o'zining taqlididiga ega to'yxona. 190 kishilik sig'im.",
+    "address": "Zarobot ko'chasi, 77",
+    "district": "Olmazor",
+    "capacity": 190,
+    "price": 135000,
+    "phone": "+998 98 888 8888",
+    "images": [
+      "/uploads/Без названия (10).jfif",
+      "/uploads/Без названия (3).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Oybek Hasanov",
+        "price": 2800000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 700000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Farg'ona Menyu",
+        "items": [
+          "Lag'mon",
+          "Somsa",
+          "Kabob",
+          "Shorva"
+        ],
+        "price": 125000
+      }
+    ],
+    "cars": [],
+    "status": "tasdiqlangan",
+    "ownerId": "b4321e5b-4590-49ba-97ec-958cc96243ed",
+    "createdAt": "2026-05-31T14:03:52.516Z",
+    "updatedAt": "2026-05-31T18:55:28.768Z",
+    "owner": {
+      "firstName": "Sergey",
+      "lastName": "Volkov",
+      "email": "sergey@toyxona.uz"
+    }
+  },
+  {
+    "id": "8e46cc0e-5583-473d-a06b-665147817a86",
+    "name": "Hayot Saroy",
+    "description": "Hayotning eng yaqin kunlarini o'tkazish uchun to'yxona. 160 kishilik sig'im.",
+    "address": "Berdax ko'chasi, 44",
+    "district": "Mirobod",
+    "capacity": 160,
+    "price": 105000,
+    "phone": "+998 95 555 5555",
+    "images": [
+      "/uploads/Без названия (1).jfif"
+    ],
+    "singers": [],
+    "karnaySurnay": {
+      "price": 550000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Sade Menyu",
+        "items": [
+          "Osh",
+          "Kabob"
+        ],
+        "price": 95000
+      }
+    ],
+    "cars": [],
+    "status": "tasdiqlangan",
+    "ownerId": "4fbbad82-703a-495f-94c8-e68085f80775",
+    "createdAt": "2026-05-31T14:03:52.516Z",
+    "updatedAt": "2026-05-31T18:55:29.023Z",
+    "owner": {
+      "firstName": "Dilfuza",
+      "lastName": "Hasanova",
+      "email": "dilfuza@toyxona.uz"
+    }
+  },
+  {
+    "id": "43aa56db-ecad-4c92-96ae-e2cee460d34f",
+    "name": "Navoi Cultural",
+    "description": "Poet Abdulla Navoi-ga bog'ishlangan to'yxona. 240 kishilik sig'im, madaniy bezak.",
+    "address": "Abdulhamid Sulton ko'chasi, 99",
+    "district": "Uchtepa",
+    "capacity": 240,
+    "price": 145000,
+    "phone": "+998 91 111 1111",
+    "images": [
+      "/uploads/Без названия (11).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Rahimjon Sultanov",
+        "price": 2900000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 0,
+      "available": false
+    },
+    "menus": [
+      {
+        "name": "Navoi Menyu",
+        "items": [
+          "Plov",
+          "Kabob",
+          "Somsa"
+        ],
+        "price": 135000
+      }
+    ],
+    "cars": [],
+    "status": "tasdiqlangan",
+    "ownerId": "8b1a7c2a-9454-4a8e-abb6-a53e12ebcceb",
+    "createdAt": "2026-05-31T14:03:52.516Z",
+    "updatedAt": "2026-05-31T18:55:29.277Z",
+    "owner": {
+      "firstName": "Alisher",
+      "lastName": "Qoraboyev",
+      "email": "alisher@toyxona.uz"
+    }
+  },
+  {
+    "id": "f6fe9479-8c78-4cbb-b215-1414ac556a39",
+    "name": "Silk Road Palace",
+    "description": "Ipak Yo'li tarikxiga bag'ishlangan to'yxona. 350 kishilik sig'im, xalqaro bezak.",
+    "address": "Xorazm ko'chasi, 33",
+    "district": "Chilonzor",
+    "capacity": 350,
+    "price": 195000,
+    "phone": "+998 94 444 4444",
+    "images": [
+      "/uploads/Без названия (7).jfif",
+      "/uploads/Vb9XP4db7Htp_grkAz3EPUy5KU5ycWtjC_x6D1_WQbSRjNFT804zKDPCxWMgA4p2oHKexoCF4TOvGN2l143Fs_Yvq3FLlie2THkT1VRR4v67iG2GH2JEY1KnVofQfBp-Ke9nq_VSk8oOE7SIsAlJ-itFzkTQQ4FR0JlSyzyzX9k4r2vsMaZbni0mahRUVsg4.jfif"
+    ],
+    "singers": [
+      {
+        "name": "Azam Ali",
+        "price": 5500000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 1100000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "International Menyu",
+        "items": [
+          "Steyk",
+          "Kabob",
+          "Plov",
+          "Makaron"
+        ],
+        "price": 320000
+      }
+    ],
+    "cars": [
+      {
+        "name": "Mercedes GLE",
+        "price": 2200000
+      }
+    ],
+    "status": "tasdiqlangan",
+    "ownerId": "e1325359-7289-4d0b-a229-ae951e27bb6d",
+    "createdAt": "2026-05-31T14:03:52.516Z",
+    "updatedAt": "2026-05-31T18:55:29.531Z",
+    "owner": {
+      "firstName": "Rustam",
+      "lastName": "Aminov",
+      "email": "rustam@toyxona.uz"
+    }
+  },
+  {
+    "id": "f8dc0a24-ed4f-45f6-a7ca-98a327f32d9a",
+    "name": "Andijan Grand",
+    "description": "Andijan shahrining g'iybati bilan bezatilgan katta to'yxona. 270 kishilik sig'im.",
+    "address": "Mavlonov Ko'chasi, 88",
+    "district": "Sergeli",
+    "capacity": 270,
+    "price": 165000,
+    "phone": "+998 90 000 0000",
+    "images": [
+      "/uploads/Без названия (4).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Kamol Raimov",
+        "price": 3300000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 800000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Andijan Menyu",
+        "items": [
+          "Plov",
+          "Somsa",
+          "Kabob",
+          "Manti"
+        ],
+        "price": 150000
+      }
+    ],
+    "cars": [
+      {
+        "name": "Hyundai Elantra",
+        "price": 850000
+      }
+    ],
+    "status": "tasdiqlangan",
+    "ownerId": "d3a10c04-30a1-44a8-bde4-d280137248ad",
+    "createdAt": "2026-05-31T14:03:52.516Z",
+    "updatedAt": "2026-05-31T18:55:29.784Z",
+    "owner": {
+      "firstName": "Gulnora",
+      "lastName": "Maxmudova",
+      "email": "gulnora@toyxona.uz"
+    }
+  },
+  {
+    "id": "6494c28a-2332-4539-aab6-8290d3785a1e",
+    "name": "Buxoro Royal",
+    "description": "Buxoro emirati tarikxiga bag'ishlangan to'yxona. 260 kishilik sig'im.",
+    "address": "Amir Quli Marvi ko'chasi, 55",
+    "district": "Yakkasaroy",
+    "capacity": 260,
+    "price": 150000,
+    "phone": "+998 96 666 6666",
+    "images": [
+      "/uploads/Без названия (2).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Bakhodir Ergashev",
+        "price": 3000000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 800000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Qadimiy Menyu",
+        "items": [
+          "Lag'mon",
+          "Somsa",
+          "Kabob",
+          "Plov"
+        ],
+        "price": 140000
+      }
+    ],
+    "cars": [],
+    "status": "tasdiqlangan",
+    "ownerId": "e26656db-2b61-4ffd-8a77-92ae4299199c",
+    "createdAt": "2026-05-31T14:03:52.516Z",
+    "updatedAt": "2026-05-31T18:55:30.038Z",
+    "owner": {
+      "firstName": "Karim",
+      "lastName": "Ergashov",
+      "email": "karim@toyxona.uz"
+    }
+  },
+  {
+    "id": "11d42f2c-0b81-4e4b-bf79-aa0936cfe511",
+    "name": "Dream Castle",
+    "description": "Orzuning saroy'i. 320 kishilik sig'im, to'la multimedia ta'minoti bilan.",
+    "address": "Turon Malik Ko'chasi, 111",
+    "district": "Bektemir",
+    "capacity": 320,
+    "price": 190000,
+    "phone": "+998 92 222 2222",
+    "images": [
+      "/uploads/Без названия (16).jfif"
+    ],
+    "singers": [
+      {
+        "name": "Alfiya Husainova",
+        "price": 3900000
+      }
+    ],
+    "karnaySurnay": {
+      "price": 920000,
+      "available": true
+    },
+    "menus": [
+      {
+        "name": "Dream Menyu",
+        "items": [
+          "Plov",
+          "Manti",
+          "Kabob",
+          "Shorva",
+          "Salat"
+        ],
+        "price": 175000
+      }
+    ],
+    "cars": [
+      {
+        "name": "Kia Sportage",
+        "price": 1050000
+      }
+    ],
+    "status": "tasdiqlangan",
+    "ownerId": "e71b2992-80bd-4941-8268-13515951b71a",
+    "createdAt": "2026-05-31T14:03:52.516Z",
+    "updatedAt": "2026-05-31T18:55:30.297Z",
+    "owner": {
+      "firstName": "Feruza",
+      "lastName": "Muhammadiyeva",
+      "email": "feruza@toyxona.uz"
+    }
+  }
+]

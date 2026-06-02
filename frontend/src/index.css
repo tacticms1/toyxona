@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #b8860b; /* Dark Gold */
+  --color-primary-dark: #8b6b08;
+  --color-secondary: #064e3b; /* Emerald Green */
+  --color-accent: #fdfaf3; /* Cream */
+}
+
+:root {
+  font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+}
+
+body {
+  @apply bg-slate-950 text-slate-100;
+  scroll-behavior: smooth;
+}
+
+img {
+  will-change: transform, opacity;
+}
+
+button, input, select, textarea {
+  will-change: transform, opacity;
+}
+
+.btn {
+  @apply px-6 py-3 rounded-2xl font-bold transition-all duration-300 active:scale-95 flex items-center justify-center gap-2;
+}
+
+.btn-primary {
+  @apply bg-primary text-white hover:bg-primary-dark shadow-xl shadow-primary/20 disabled:opacity-50;
+}
+
+.btn-secondary {
+  @apply bg-white border border-gray-100 text-gray-700 hover:bg-gray-50 shadow-sm;
+}
+
+.input-field {
+  @apply w-full px-5 py-4 bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all shadow-sm font-medium text-gray-700;
+}
+
+/* Custom Calendar Styling */
+.fc {
+  @apply !font-sans !border-none;
+}
+
+.fc-toolbar-title {
+  @apply !text-xl !font-black !text-gray-900;
+}
+
+.fc-button {
+  @apply !bg-gray-50 !border-none !text-gray-900 !font-bold !px-4 !py-2 !rounded-xl transition-all hover:bg-gray-100;
+}
+
+.fc-button-active {
+  @apply !bg-primary !text-white;
+}
+
+.fc-daygrid-day {
+  @apply transition-colors duration-200;
+}
+
+.fc-day-today {
+  @apply !bg-primary/5;
+}
