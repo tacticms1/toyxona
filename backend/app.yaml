@@ -1,9 +1,6 @@
 name: wedding-hall-backend
 services:
 - name: api
-  github:
-    branch: main
-    repo: YOUR_USERNAME/YOUR_REPO_NAME
   build_command: npm install
   run_command: npm start
   envs:
@@ -14,8 +11,6 @@ services:
     value: "8080"
   http_port: 8080
   health_check:
-    http_path: /api/halls
-  log_destination:
-    name: app_logs
+    http_path: /health
   resources:
     memory_mb: 512

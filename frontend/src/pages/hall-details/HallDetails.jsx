@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../../api/axios';
+import api, { API_URL } from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 import { Users, MapPin, Phone, CheckCircle2, Loader2, Calendar as CalendarIcon, Music, Car, Utensils, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -160,7 +160,7 @@ const HallDetails = () => {
         <div className="space-y-6">
           <div className="h-[400px] rounded-3xl overflow-hidden shadow-2xl relative group">
             <img 
-              src={hall.images[0] ? `http://localhost:5000${hall.images[0]}` : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
+              src={hall.images[0] ? `${API_URL}${hall.images[0]}` : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               alt={hall.name}
             />
