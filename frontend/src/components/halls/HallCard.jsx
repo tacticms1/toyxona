@@ -23,7 +23,7 @@ const HallCard = ({ hall }) => {
         {/* Image Container */}
         <div className="relative h-80 overflow-hidden bg-slate-900">
           <motion.img 
-            src={hall.images[0] ? (hall.images[0].startsWith('http') ? hall.images[0] : (hall.images[0].startsWith('/uploads') ? `${API_URL}${hall.images[0]}` : `${API_URL}/uploads/${hall.images[0].split(/[\\/]/).pop()}`)) : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
+            src={hall.images[0] ? (hall.images[0].startsWith('http') ? hall.images[0] : (hall.images[0].startsWith('/uploads') ? hall.images[0] : `/uploads/${hall.images[0].split(/[\\/]/).pop()}`)) : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
             alt={hall.name}
             loading="lazy"
             decoding="async"
