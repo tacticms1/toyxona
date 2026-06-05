@@ -471,34 +471,32 @@ const HallDetails = () => {
                     />
                   </div>
 
-                  {!user && (
-                    <div className="space-y-4 pt-2">
-                      <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] ml-1 text-center">Mijoz Ma'lumotlari</p>
-                      <div className="grid grid-cols-2 gap-4">
-                        <input 
-                          type="text" 
-                          placeholder="Ism" 
-                          className="w-full bg-slate-900 border-2 border-slate-800 rounded-2xl px-5 py-4 text-white font-bold outline-none focus:border-amber-400 transition-all"
-                          value={customerInfo.firstName}
-                          onChange={e => setCustomerInfo({...customerInfo, firstName: e.target.value})}
-                        />
-                        <input 
-                          type="text" 
-                          placeholder="Familiya" 
-                          className="w-full bg-slate-900 border-2 border-slate-800 rounded-2xl px-5 py-4 text-white font-bold outline-none focus:border-amber-400 transition-all"
-                          value={customerInfo.lastName}
-                          onChange={e => setCustomerInfo({...customerInfo, lastName: e.target.value})}
-                        />
-                      </div>
+                  <div className="space-y-4 pt-2">
+                    <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] ml-1 text-center">Mijoz Ma'lumotlari</p>
+                    <div className="grid grid-cols-2 gap-4">
                       <input 
                         type="text" 
-                        placeholder="Telefon raqam" 
+                        placeholder="Ism" 
                         className="w-full bg-slate-900 border-2 border-slate-800 rounded-2xl px-5 py-4 text-white font-bold outline-none focus:border-amber-400 transition-all"
-                        value={customerInfo.phone}
-                        onChange={e => setCustomerInfo({...customerInfo, phone: e.target.value})}
+                        value={customerInfo.firstName}
+                        onChange={e => setCustomerInfo({...customerInfo, firstName: e.target.value})}
+                      />
+                      <input 
+                        type="text" 
+                        placeholder="Familiya" 
+                        className="w-full bg-slate-900 border-2 border-slate-800 rounded-2xl px-5 py-4 text-white font-bold outline-none focus:border-amber-400 transition-all"
+                        value={customerInfo.lastName}
+                        onChange={e => setCustomerInfo({...customerInfo, lastName: e.target.value})}
                       />
                     </div>
-                  )}
+                    <input 
+                      type="text" 
+                      placeholder="Telefon raqam" 
+                      className="w-full bg-slate-900 border-2 border-slate-800 rounded-2xl px-5 py-4 text-white font-bold outline-none focus:border-amber-400 transition-all"
+                      value={customerInfo.phone}
+                      onChange={e => setCustomerInfo({...customerInfo, phone: e.target.value})}
+                    />
+                  </div>
                 </div>
 
                 <div className="bg-slate-900/80 p-6 rounded-3xl border border-slate-800 space-y-4">
