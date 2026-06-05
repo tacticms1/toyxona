@@ -8,6 +8,20 @@ const HallCard = ({ hall }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80';
+    if (imagePath.startsWith('http')) return imagePath;
+    
+    // Agar bu bizning Git'dagi 20 ta rasmimizdan biri bo'lsa (hall_1.jfif va h.k.)
+    // Vercel'ning o'zidan olamiz (chunki Render'da fayllar o'chib ketishi mumkin)
+    if (imagePath.includes('hall_') && imagePath.endsWith('.jfif')) {
+      return imagePath;
+    }
+    
+    // Yangi yuklangan rasmlar uchun Render backend manzili
+    return `${API_URL}${imagePath}`;
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 40 }}
@@ -23,7 +37,7 @@ const HallCard = ({ hall }) => {
         {/* Image Container */}
         <div className="relative h-80 overflow-hidden bg-slate-900">
           <motion.img 
-            src={hall.images[0] ? (hall.images[0].startsWith('http') ? hall.images[0] : (hall.images[0].startsWith('/uploads') ? hall.images[0] : `/uploads/${hall.images[0].split(/[\\/]/).pop()}`)) : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
+            src={getImageUrl(hall.images[0])} 
             alt={hall.name}
             loading="lazy"
             decoding="async"

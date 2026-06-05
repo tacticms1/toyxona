@@ -1,5 +1,6 @@
 const { Hall, User, Booking } = require('../models');
 const { Op } = require('sequelize');
+const path = require('path');
 
 exports.createHall = async (req, res) => {
   try {
@@ -8,7 +9,7 @@ exports.createHall = async (req, res) => {
       singers, karnaySurnay, menus, cars, ownerId 
     } = req.body;
     
-    const images = req.files ? req.files.map(file => file.path) : [];
+    const images = req.files ? req.files.map(file => `/uploads/${path.basename(file.path)}`) : [];
     
     const hall = await Hall.create({
       name,
@@ -126,8 +127,13 @@ exports.updateHall = async (req, res) => {
     if (status && req.user.role === 'admin') updateData.status = status;
     if (ownerId && req.user.role === 'admin') updateData.ownerId = ownerId;
 
+    if (req.body.images) {
+      updateData.images = JSON.parse(req.body.images);
+    }
+
     if (req.files && req.files.length > 0) {
-      updateData.images = req.files.map(file => file.path);
+      const newImages = req.files.map(file => `/uploads/${path.basename(file.path)}`);
+      updateData.images = [...(updateData.images || hall.images || []), ...newImages];
     }
 
     await hall.update(updateData);
@@ -157,6 +163,40 @@ exports.getOwnerHalls = async (req, res) => {
   try {
     const halls = await Hall.findAll({ where: { ownerId: req.user.id } });
     res.json(halls);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getAvailableHalls = async (req, res) => {
+  try {
+    const { date, excludeId } = req.query;
+    if (!date) return res.status(400).json({ message: 'Sana kiritilishi shart' });
+
+    const selectedDate = new Date(date);
+    
+    // 1. Get all bookings for that date
+    const bookings = await Booking.findAll({
+      where: {
+        date: selectedDate,
+        status: { [Op.ne]: 'cancelled' }
+      },
+      attributes: ['hallId']
+    });
+
+    const bookedHallIds = bookings.map(b => b.hallId);
+    if (excludeId) bookedHallIds.push(excludeId);
+
+    // 2. Find halls that are NOT in bookedHallIds
+    const availableHalls = await Hall.findAll({
+      where: {
+        id: { [Op.notIn]: bookedHallIds },
+        status: 'tasdiqlangan'
+      },
+      limit: 4
+    });
+
+    res.json(availableHalls);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

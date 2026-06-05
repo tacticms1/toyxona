@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import api from '../../api/axios';
+import api, { API_URL } from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 import { 
   LayoutDashboard, 
@@ -166,7 +166,7 @@ const RegisterHall = ({ isEdit = false }) => {
     setLoading(true);
     const data = new FormData();
     Object.keys(formData).forEach(key => {
-      if (['singers', 'karnaySurnay', 'menus', 'cars'].includes(key)) {
+      if (['singers', 'karnaySurnay', 'menus', 'cars', 'images'].includes(key)) {
         data.append(key, JSON.stringify(formData[key]));
       } else {
         data.append(key, formData[key]);
@@ -295,9 +295,48 @@ const RegisterHall = ({ isEdit = false }) => {
           )}
         </div>
 
-        <div>
-          <label className="block text-xs font-bold mb-2 uppercase">Suratlar</label>
-          <input type="file" multiple onChange={e => setImages(Array.from(e.target.files))} className="w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-2xl file:border-0 file:text-sm file:font-bold file:bg-pink-50 file:text-primary hover:file:bg-pink-100 transition-all" />
+        <div className="p-6 border rounded-3xl space-y-4">
+          <label className="block text-xs font-bold mb-2 uppercase flex items-center gap-2">
+            <PlusCircle className="w-5 h-5 text-primary" /> Suratlar
+          </label>
+          
+          {isEdit && formData.images && formData.images.length > 0 && (
+            <div className="grid grid-cols-4 gap-4 mb-4">
+              {formData.images.map((img, i) => (
+                <div key={i} className="relative group aspect-square">
+                  <img 
+                    src={img.startsWith('http') ? img : `${API_URL}${img}`} 
+                    className="w-full h-full object-cover rounded-xl border border-gray-200" 
+                  />
+                  <button 
+                    type="button"
+                    onClick={() => setFormData({...formData, images: formData.images.filter((_, idx) => idx !== i)})}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="relative group">
+            <input 
+              type="file" 
+              multiple 
+              onChange={e => setImages(Array.from(e.target.files))} 
+              className="hidden" 
+              id="file-upload"
+            />
+            <label 
+              htmlFor="file-upload" 
+              className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-3xl cursor-pointer bg-gray-50 hover:bg-pink-50 hover:border-primary transition-all"
+            >
+              <PlusCircle className="w-8 h-8 text-gray-400 group-hover:text-primary mb-2" />
+              <p className="text-sm text-gray-500 font-bold">{images.length > 0 ? `${images.length} ta rasm tanlandi` : 'Yangi rasmlar yuklash'}</p>
+              <p className="text-[10px] text-gray-400 uppercase mt-1">PNG, JPG yoki WebP</p>
+            </label>
+          </div>
         </div>
 
         <button className="w-full bg-primary hover:bg-pink-800 text-white py-5 rounded-[2rem] font-black text-xl shadow-xl shadow-primary/20 transition-all active:scale-95 disabled:opacity-50" disabled={loading}>

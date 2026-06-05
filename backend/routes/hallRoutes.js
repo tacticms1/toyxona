@@ -6,12 +6,14 @@ const {
   getHallById, 
   updateHall, 
   deleteHall, 
-  getOwnerHalls 
+  getOwnerHalls,
+  getAvailableHalls
 } = require('../controllers/hallController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
 router.get('/', getAllHalls);
+router.get('/available', getAvailableHalls);
 router.get('/owner', protect, authorize('owner'), getOwnerHalls);
 router.get('/:id', getHallById);
 

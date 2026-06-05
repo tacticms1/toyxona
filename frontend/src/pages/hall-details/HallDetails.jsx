@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import api, { API_URL } from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
-import { Users, MapPin, Phone, CheckCircle2, Loader2, Calendar as CalendarIcon, Music, Car, Utensils, Info } from 'lucide-react';
+import { Users, MapPin, Phone, CheckCircle2, Loader2, Calendar as CalendarIcon, Music, Car, Utensils, Info, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -25,6 +25,8 @@ const HallDetails = () => {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [hoveredBooking, setHoveredBooking] = useState(null);
+  const [recommendedHalls, setRecommendedHalls] = useState([]);
+  const [recommendLoading, setRecommendLoading] = useState(false);
 
   const [error, setError] = useState(null);
 
@@ -61,7 +63,7 @@ const HallDetails = () => {
     fetchData();
   }, [id, user]);
 
-  const handleDateClick = (info) => {
+  const handleDateClick = async (info) => {
     const today = new Date().toISOString().split('T')[0];
     if (info.dateStr < today) {
       alert('O\'tgan sanalarni tanlab bo\'lmaydi');
@@ -69,10 +71,21 @@ const HallDetails = () => {
     }
     const isBooked = bookings.find(b => b.date.split('T')[0] === info.dateStr);
     if (isBooked) {
-      alert('Bu sana allaqachon band qilingan');
+      // Fetch recommendations
+      setRecommendLoading(true);
+      try {
+        const res = await api.get(`/halls/available?date=${info.dateStr}&excludeId=${id}`);
+        setRecommendedHalls(res.data);
+        setSelectedDate(null);
+      } catch (err) {
+        console.error('Recommendations error:', err);
+      } finally {
+        setRecommendLoading(false);
+      }
       return;
     }
     setSelectedDate(info.dateStr);
+    setRecommendedHalls([]);
     
     // Scroll to booking form
     setTimeout(() => {
@@ -87,6 +100,15 @@ const HallDetails = () => {
     if (selectedCar) total += selectedCar.price;
     if (karnayRequested && hall.karnaySurnay) total += hall.karnaySurnay.price || 0;
     return total;
+  };
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80';
+    if (imagePath.startsWith('http')) return imagePath;
+    if (imagePath.includes('hall_') && imagePath.endsWith('.jfif')) {
+      return imagePath;
+    }
+    return `${API_URL}${imagePath}`;
   };
 
   const handleBooking = async () => {
@@ -194,7 +216,7 @@ const HallDetails = () => {
         <div className="space-y-6">
           <div className="h-[400px] rounded-[2.5rem] overflow-hidden shadow-2xl relative group border border-slate-800">
             <img 
-              src={hall.images[0] ? (hall.images[0].startsWith('http') ? hall.images[0] : (hall.images[0].startsWith('/uploads') ? hall.images[0] : `/uploads/${hall.images[0].split(/[\\/]/).pop()}`)) : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'} 
+              src={getImageUrl(hall.images[0])} 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               alt={hall.name}
             />
@@ -352,45 +374,80 @@ const HallDetails = () => {
 
         <div className="space-y-6 lg:sticky lg:top-24 h-fit">
           <div className="bg-slate-950/80 backdrop-blur-xl p-8 md:p-10 rounded-[2.5rem] shadow-2xl border border-slate-800/50 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl -mr-16 -mt-16"></div>
-            <h3 className="text-2xl font-black mb-8 flex items-center gap-3 text-white uppercase tracking-tight">
-              <CalendarIcon className="w-6 h-6 text-amber-400" />
-              Sana Tanlang
-            </h3>
-            <div className="calendar-container relative">
-              <FullCalendar
-                plugins={[dayGridPlugin, interactionPlugin]}
-                initialView="dayGridMonth"
-                locale="uz"
-                selectable={true}
-                unselectAuto={false}
-                dateClick={handleDateClick}
-                events={events}
-                eventMouseEnter={(info) => {
-                  if (info.event.extendedProps.booking) {
-                    setHoveredBooking(info.event.extendedProps.booking);
-                  }
-                }}
-                eventMouseLeave={() => setHoveredBooking(null)}
-                headerToolbar={{ left: 'prev', center: 'title', right: 'next' }}
-                height="auto"
-              />
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-3">
+                <CalendarIcon className="w-6 h-6 text-amber-400" /> Sana Tanlang
+              </h3>
               {hoveredBooking && (
-                <div className="absolute top-0 right-0 z-50 bg-slate-900 text-white p-5 rounded-2xl shadow-2xl w-64 border border-slate-700 animate-in fade-in zoom-in-95 backdrop-blur-xl">
-                  <p className="font-black text-amber-400 mb-1">{hoveredBooking.customerFirstName} {hoveredBooking.customerLastName}</p>
-                  <p className="text-xs text-slate-400 font-bold mb-3">{hoveredBooking.customerPhone}</p>
-                  <div className="h-[1px] bg-slate-800 mb-3"></div>
-                  <p className="text-sm font-bold">Sig'im: <span className="text-white">{hoveredBooking.seatsCount} kishi</span></p>
-                </div>
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="absolute top-8 right-8 z-50 bg-amber-500 text-black px-4 py-2 rounded-xl text-xs font-bold shadow-2xl border border-amber-400"
+                >
+                  <p>Band qilgan: {hoveredBooking.customerFirstName}</p>
+                  <p>Telefon: {hoveredBooking.customerPhone}</p>
+                </motion.div>
               )}
             </div>
             
-            <div className="mt-8 flex flex-wrap gap-4 text-[10px] font-black uppercase tracking-[0.2em]">
-              <div className="flex items-center gap-2 bg-slate-900/50 px-3 py-1.5 rounded-xl border border-red-500/20"><div className="w-2.5 h-2.5 bg-red-500/30 border border-red-500 rounded-full"></div> Band</div>
-              <div className="flex items-center gap-2 bg-slate-900/50 px-3 py-1.5 rounded-xl border border-slate-700"><div className="w-2.5 h-2.5 bg-slate-800 border border-slate-600 rounded-full"></div> O'tgan</div>
-              <div className="flex items-center gap-2 bg-slate-900/50 px-3 py-1.5 rounded-xl border border-amber-400/20"><div className="w-2.5 h-2.5 bg-transparent border-2 border-amber-400 rounded-full"></div> Erkin</div>
+            <FullCalendar
+              plugins={[dayGridPlugin, interactionPlugin]}
+              initialView="dayGridMonth"
+              locale="uz"
+              firstDay={1}
+              headerToolbar={{ left: 'prev', center: 'title', right: 'next' }}
+              events={events}
+              dateClick={handleDateClick}
+              height="auto"
+              eventMouseEnter={(info) => {
+                if (info.event.extendedProps.booking) {
+                  setHoveredBooking(info.event.extendedProps.booking);
+                }
+              }}
+              eventMouseLeave={() => setHoveredBooking(null)}
+            />
+
+            <div className="mt-8 flex flex-wrap gap-4 text-[10px] font-black uppercase tracking-widest">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-red-500/10 text-red-500 rounded-xl border border-red-500/20">
+                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div> Band
+              </div>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/50 text-slate-400 rounded-xl border border-slate-700">
+                <div className="w-2 h-2 rounded-full bg-slate-600"></div> O'tgan
+              </div>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 text-amber-500 rounded-xl border border-amber-400/20">
+                <div className="w-2 h-2 rounded-full bg-amber-500"></div> Erkin
+              </div>
             </div>
           </div>
+
+          {/* Recommendations Section */}
+          {recommendedHalls.length > 0 && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-slate-900/50 p-8 rounded-[2.5rem] border border-amber-500/30 shadow-2xl space-y-6"
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-black text-amber-400 uppercase tracking-tight">Shu kunga bo'sh to'yxonalar</h3>
+                <button onClick={() => setRecommendedHalls([])} className="text-slate-500 hover:text-white"><X className="w-5 h-5" /></button>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {recommendedHalls.map(h => (
+                    <Link key={h.id} to={`/halls/${h.id}`} className="group bg-slate-950 p-4 rounded-2xl border border-slate-800 hover:border-amber-500/50 transition-all flex gap-4">
+                      <img 
+                        src={getImageUrl(h.images[0])} 
+                        className="w-20 h-20 object-cover rounded-xl"
+                      />
+                    <div className="flex-1">
+                      <p className="font-bold text-white group-hover:text-amber-400 transition-colors">{h.name}</p>
+                      <p className="text-xs text-slate-500 mb-2">{h.district}</p>
+                      <p className="text-sm font-black text-amber-500">{h.price.toLocaleString()} so'm</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
 
           {selectedDate && (
             <div className="bg-slate-950 p-8 md:p-10 rounded-[2.5rem] shadow-2xl border-2 border-amber-400/30 space-y-8 animate-in slide-in-from-bottom-6 relative overflow-hidden">

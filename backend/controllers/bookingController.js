@@ -156,7 +156,7 @@ exports.getHallBookings = async (req, res) => {
         hallId: req.params.hallId, 
         status: { [Op.ne]: 'cancelled' } 
       },
-      include: [{ model: User, as: 'customer', attributes: ['firstName', 'lastName', 'customerPhone'] }]
+      attributes: ['id', 'date', 'customerFirstName', 'customerLastName', 'customerPhone', 'seatsCount', 'totalPrice']
     });
     res.json(bookings);
   } catch (error) {
