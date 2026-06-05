@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { addOwner, getOwners, getDashboardStats, seedSampleData, assignOwnerToHall } = require('../controllers/adminController');
+const { addOwner, getOwners, getDashboardStats, seedSampleData, assignOwnerToHall, resetBookings } = require('../controllers/adminController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
 router.use(protect);
@@ -11,5 +11,6 @@ router.post('/assign-owner', assignOwnerToHall);
 router.get('/owners', getOwners);
 router.get('/stats', getDashboardStats);
 router.post('/seed', seedSampleData);
+router.post('/reset-bookings', resetBookings);
 
 module.exports = router;

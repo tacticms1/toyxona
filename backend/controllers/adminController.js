@@ -134,3 +134,12 @@ exports.seedSampleData = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.resetBookings = async (req, res) => {
+  try {
+    await Booking.destroy({ where: {}, truncate: true });
+    res.json({ message: 'Barcha bronlar muvaffaqiyatli o\'chirildi!' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

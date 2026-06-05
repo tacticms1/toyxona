@@ -24,6 +24,7 @@ const HallDetails = () => {
   const [karnayRequested, setKarnayRequested] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [cardNumber, setCardNumber] = useState('');
   const [hoveredBooking, setHoveredBooking] = useState(null);
   const [recommendedHalls, setRecommendedHalls] = useState([]);
   const [recommendLoading, setRecommendLoading] = useState(false);
@@ -522,18 +523,63 @@ const HallDetails = () => {
       {showPaymentModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-slate-950/90 backdrop-blur-md" onClick={() => setShowPaymentModal(false)} />
-          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-slate-900 border border-slate-800 p-10 rounded-[3rem] shadow-2xl relative z-10 max-w-md w-full text-center space-y-8">
-            <div className="w-24 h-24 bg-amber-400/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle2 className="w-12 h-12 text-amber-400" />
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-slate-900 border border-slate-800 p-8 rounded-[3rem] shadow-2xl relative z-10 max-w-md w-full text-center space-y-6">
+            <div className="w-20 h-20 bg-amber-400/10 rounded-full flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-10 h-10 text-amber-400" />
             </div>
-            <div className="space-y-4">
-              <h3 className="text-3xl font-black text-white uppercase tracking-tight">To'lovni Tasdiqlang</h3>
-              <p className="text-slate-400 font-medium">Siz <span className="text-white font-bold">{calculateTotal().toLocaleString()} so'm</span> miqdorida to'lovni amalga oshirmoqchisiz.</p>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-black text-white uppercase tracking-tight">To'lov Sahifasi</h3>
+              <p className="text-slate-400 text-sm font-medium">To'lov summasi: <span className="text-white font-bold">{calculateTotal().toLocaleString()} so'm</span></p>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <button onClick={() => setShowPaymentModal(false)} className="px-6 py-4 bg-slate-800 hover:bg-slate-700 text-white font-black rounded-2xl transition-all uppercase tracking-widest text-xs">Bekor qilish</button>
-              <button onClick={confirmBooking} disabled={bookingLoading} className="px-6 py-4 bg-amber-400 hover:bg-amber-300 text-black font-black rounded-2xl transition-all shadow-lg shadow-amber-900/20 flex items-center justify-center gap-2 uppercase tracking-widest text-xs">
-                {bookingLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Tasdiqlash'}
+
+            <div className="space-y-4 text-left">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Karta raqami</label>
+                <input 
+                  type="text" 
+                  maxLength="19"
+                  placeholder="8600 **** **** ****"
+                  value={cardNumber}
+                  onChange={(e) => {
+                    let v = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                    let matches = v.match(/\d{4,16}/g);
+                    let match = matches && matches[0] || '';
+                    let parts = [];
+                    for (let i=0, len=match.length; i<len; i+=4) {
+                        parts.push(match.substring(i, i+4));
+                    }
+                    if (parts.length) {
+                        setCardNumber(parts.join(' '));
+                    } else {
+                        setCardNumber(v);
+                    }
+                  }}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-5 py-4 text-white font-bold outline-none focus:border-amber-400 transition-all"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Muddati</label>
+                  <input type="text" placeholder="MM/YY" className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-5 py-4 text-white font-bold outline-none focus:border-amber-400 transition-all" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">CVV</label>
+                  <input type="password" placeholder="***" maxLength="3" className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-5 py-4 text-white font-bold outline-none focus:border-amber-400 transition-all" />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 pt-4">
+              <button onClick={() => setShowPaymentModal(false)} className="px-6 py-4 bg-slate-800 hover:bg-slate-700 text-white font-black rounded-2xl transition-all uppercase tracking-widest text-[10px]">Bekor qilish</button>
+              <button 
+                onClick={() => {
+                  if (cardNumber.length < 19) return alert('Iltimos, karta raqamini to\'liq kiriting');
+                  confirmBooking();
+                }} 
+                disabled={bookingLoading} 
+                className="px-6 py-4 bg-amber-400 hover:bg-amber-300 text-black font-black rounded-2xl transition-all shadow-lg shadow-amber-900/20 flex items-center justify-center gap-2 uppercase tracking-widest text-[10px]"
+              >
+                {bookingLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'To\'lash'}
               </button>
             </div>
           </motion.div>

@@ -83,6 +83,8 @@ const AdminDashboard = () => {
 
 const Overview = ({ stats }) => {
   const [seeding, setSeeding] = useState(false);
+  const [reseting, setReseting] = useState(false);
+
   const handleSeed = async () => {
     if (!window.confirm('Namuna ma\'lumotlarni qo\'shmoqchimisiz?')) return;
     setSeeding(true);
@@ -94,17 +96,37 @@ const Overview = ({ stats }) => {
     finally { setSeeding(false); }
   };
 
+  const handleReset = async () => {
+    if (!window.confirm('DIQQAT! Barcha bronlar o\'chiriladi. Bu amalni qaytarib bo\'lmaydi. Rozimisiz?')) return;
+    setReseting(true);
+    try {
+      await api.post('/admin/reset-bookings');
+      alert('Barcha bronlar o\'chirildi!');
+      window.location.reload();
+    } catch (err) { alert('Xatolik yuz berdi'); }
+    finally { setReseting(false); }
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Tizim Statistikasi</h2>
-        <button 
-          onClick={handleSeed} 
-          disabled={seeding}
-          className="btn btn-secondary text-sm flex items-center gap-2"
-        >
-          {seeding ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Namuna ma\'lumotlarni qo\'shish'}
-        </button>
+        <div className="flex gap-2">
+          <button 
+            onClick={handleReset} 
+            disabled={reseting}
+            className="btn bg-red-600 hover:bg-red-700 text-white text-sm flex items-center gap-2"
+          >
+            {reseting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Barcha Bronlarni Tozalash'}
+          </button>
+          <button 
+            onClick={handleSeed} 
+            disabled={seeding}
+            className="btn btn-secondary text-sm flex items-center gap-2"
+          >
+            {seeding ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Namuna ma\'lumotlarni qo\'shish'}
+          </button>
+        </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <StatCard label="Jami To'yxonalar" value={stats.totalHalls} icon={Building2} color="bg-blue-500" />
