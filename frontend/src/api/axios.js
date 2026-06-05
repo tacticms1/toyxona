@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// To'g'ridan-to'g'ri DigitalOcean backend manzili
-export const API_URL = 'https://toyxona-43cx9.ondigitalocean.app';
+// Render backend manzili
+export const API_URL = 'https://backend-ddul.onrender.com';
 
 const api = axios.create({
   baseURL: `${API_URL}/api`,
