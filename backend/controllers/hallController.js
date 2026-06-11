@@ -2,6 +2,38 @@ const { Hall, User, Booking } = require('../models');
 const { Op } = require('sequelize');
 const path = require('path');
 
+// Admin: barcha hall'larni ko'rish (status filteri bilan)
+exports.getAdminHalls = async (req, res) => {
+  try {
+    const { status, district, search } = req.query;
+    const where = {};
+    if (status) where.status = status;
+    if (district) where.district = district;
+    if (search) where.name = { [Op.iLike]: `%${search}%` };
+
+    const halls = await Hall.findAll({ where, order: [['createdAt', 'DESC']] });
+    const hallsWithOwner = await Promise.all(halls.map(async (hall) => {
+      const owner = await User.findByPk(hall.ownerId, { attributes: ['firstName', 'lastName', 'email'] });
+      return { ...hall.toJSON(), owner };
+    }));
+    res.json(hallsWithOwner);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Admin: hall statusini yangilash
+exports.updateHallStatus = async (req, res) => {
+  try {
+    const hall = await Hall.findByPk(req.params.id);
+    if (!hall) return res.status(404).json({ message: 'Hall topilmadi' });
+    await hall.update({ status: req.body.status });
+    res.json(hall);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.createHall = async (req, res) => {
   try {
     const { 

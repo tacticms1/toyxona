@@ -251,8 +251,8 @@ const ManageHalls = () => {
 
   const fetchHalls = async () => {
     try {
-      const params = new URLSearchParams({ search, district: filterDistrict, status: filterStatus, sort: sortOption });
-      const res = await api.get(`/halls?${params.toString()}`);
+      const params = new URLSearchParams({ search, district: filterDistrict, status: filterStatus });
+      const res = await api.get(`/admin/halls?${params.toString()}`);
       setHalls(res.data);
     } catch (err) { console.error(err); }
     finally { setLoading(false); }
@@ -272,7 +272,7 @@ const ManageHalls = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      await api.put(`/halls/${id}`, { status });
+      await api.put(`/admin/halls/${id}/status`, { status });
       fetchHalls();
     } catch (err) { alert('Holatni yangilab bo\'lmadi'); }
   };
