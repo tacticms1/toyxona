@@ -121,40 +121,6 @@ const OwnerDashboard = () => {
 
 /* ─── Guarded hall form — redirect if not approved ─── */
 const RegisterHallGuarded = ({ isEdit = false }) => {
-  const { verification } = useVerification();
-  const navigate = useNavigate();
-
-  if (verification === undefined) return <PageLoader />;
-
-  if (!verification || verification.status !== 'approved') {
-    return (
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col items-center justify-center py-32 text-center space-y-6"
-      >
-        <div className="p-6 bg-amber-500/10 rounded-full border border-amber-500/20">
-          <ShieldAlert className="w-16 h-16 text-amber-400" />
-        </div>
-        <div>
-          <h2 className="text-2xl font-black text-white uppercase tracking-tight">
-            Ruxsat yo'q
-          </h2>
-          <p className="text-slate-400 font-bold mt-3 max-w-sm mx-auto leading-relaxed">
-            {!verification
-              ? "To'yxona qo'shish uchun avval hujjatlaringizni yuboring va admin tasdig'ini kuting."
-              : verification.status === 'submitted'
-              ? 'Hujjatlaringiz tekshirilmoqda. Admin tasdig\'idan keyin to\'yxona qo\'sha olasiz.'
-              : `Hujjatlaringiz rad etildi: "${verification.adminNote}". Qayta yuboring.`}
-          </p>
-        </div>
-        <button onClick={() => navigate('/owner/verification')}
-          className="flex items-center gap-2 px-8 py-4 bg-pink-500 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-pink-400 transition-all shadow-xl shadow-pink-500/20"
-        >
-          <BadgeCheck className="w-5 h-5" /> Tasdiqlanish sahifasi
-        </button>
-      </motion.div>
-    );
-  }
-
   return <RegisterHall isEdit={isEdit} />;
 };
 
