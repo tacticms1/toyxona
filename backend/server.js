@@ -29,6 +29,17 @@ app.use('/api/owner', require('./routes/ownerRoutes'));
 app.use('/api/halls', require('./routes/hallRoutes'));
 app.use('/api/bookings', require('./routes/bookingRoutes'));
 
+// Test email route
+app.get('/test-email', async (req, res) => {
+  const { sendOTP } = require('./utils/mailer');
+  try {
+    await sendOTP('ibrohimbaxtiyorov440@gmail.com', '123456');
+    res.json({ success: true, message: 'Email yuborildi' });
+  } catch (err) {
+    res.json({ success: false, error: err.message });
+  }
+});
+
 // Database Connection and Start Server
 const PORT = process.env.PORT || 5000;
 
