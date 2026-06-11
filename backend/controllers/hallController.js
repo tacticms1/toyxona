@@ -37,10 +37,14 @@ exports.createHall = async (req, res) => {
 exports.getAllHalls = async (req, res) => {
   try {
     const { district, status, sort, search, minPrice, maxPrice, minCapacity } = req.query;
-    let where = { status: 'tasdiqlangan' };
+    let where = {};
 
-    if (status && req.user && req.user.role === 'admin') {
-      where.status = status;
+    if (req.user?.role === 'admin') {
+      // Admin barcha hall'larni ko'radi, status filter ixtiyoriy
+      if (status) where.status = status;
+    } else {
+      // Oddiy foydalanuvchi faqat tasdiqlangan hall'larni ko'radi
+      where.status = 'tasdiqlangan';
     }
 
     if (district) where.district = district;

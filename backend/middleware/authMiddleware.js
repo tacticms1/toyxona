@@ -14,6 +14,17 @@ exports.protect = (req, res, next) => {
   }
 };
 
+// Token bo'lsa o'rnatadi, bo'lmasa o'tkazib yuboradi (public routelar uchun)
+exports.optionalProtect = (req, res, next) => {
+  const token = req.header('Authorization')?.split(' ')[1];
+  if (token) {
+    try {
+      req.user = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (_) {}
+  }
+  next();
+};
+
 exports.authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {

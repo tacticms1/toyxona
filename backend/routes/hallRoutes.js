@@ -9,10 +9,10 @@ const {
   getOwnerHalls,
   getAvailableHalls
 } = require('../controllers/hallController');
-const { protect, authorize } = require('../middleware/authMiddleware');
+const { protect, authorize, optionalProtect } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
-router.get('/', getAllHalls);
+router.get('/', optionalProtect, getAllHalls);
 router.get('/available', getAvailableHalls);
 router.get('/owner', protect, authorize('owner'), getOwnerHalls);
 router.get('/:id', getHallById);
