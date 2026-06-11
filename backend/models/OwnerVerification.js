@@ -13,7 +13,7 @@ const OwnerVerification = sequelize.define('OwnerVerification', {
     unique: true
   },
   pinfl: {
-    type: DataTypes.STRING(14),
+    type: DataTypes.STRING(20),
     allowNull: false
   },
   phone: {
