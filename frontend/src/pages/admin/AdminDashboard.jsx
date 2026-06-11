@@ -245,6 +245,7 @@ const ManageHalls = () => {
   const [search, setSearch] = useState('');
   const [filterDistrict, setFilterDistrict] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+  const [sortOption, setSortOption] = useState('');
   const [selectedHall, setSelectedHall] = useState(null);
   const [hallBookings, setHallBookings] = useState([]);
   const navigate = useNavigate();
