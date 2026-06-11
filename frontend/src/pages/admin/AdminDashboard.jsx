@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
-import api from '../../api/axios';
-import { 
-  LayoutDashboard, 
-  Building2, 
-  Users, 
-  CalendarCheck, 
+import api, { API_URL } from '../../api/axios';
+import {
+  LayoutDashboard,
+  Building2,
+  Users,
+  CalendarCheck,
   UserPlus,
   Loader2,
   TrendingUp,
@@ -19,7 +19,13 @@ import {
   ChevronRight,
   Database,
   RefreshCw,
-  X
+  X,
+  PlusCircle,
+  BadgeCheck,
+  ShieldAlert,
+  ShieldX,
+  Eye,
+  MessageSquare
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -48,6 +54,7 @@ const AdminDashboard = () => {
     { label: 'Egalar', path: '/admin/owners', icon: Users },
     { label: 'Ega Qo\'shish', path: '/admin/add-owner', icon: UserPlus },
     { label: 'Barcha Bronlar', path: '/admin/bookings', icon: CalendarCheck },
+    { label: 'Verifikatsiya', path: '/admin/verifications', icon: BadgeCheck },
   ];
 
   if (loading) return (
@@ -107,6 +114,7 @@ const AdminDashboard = () => {
             <Route path="/owners" element={<ManageOwners />} />
             <Route path="/add-owner" element={<AddOwner />} />
             <Route path="/bookings" element={<ManageBookings />} />
+            <Route path="/verifications" element={<ManageVerifications />} />
           </Routes>
         </AnimatePresence>
       </main>
@@ -503,7 +511,7 @@ const ManageOwners = () => {
               <p className="text-xl font-black text-white truncate uppercase">{owner.firstName} {owner.lastName}</p>
               <p className="text-slate-500 font-bold text-xs truncate mt-1">{owner.email}</p>
               <div className="flex items-center gap-2 mt-4">
-                <span className="px-3 py-1 bg-slate-900 text-slate-400 rounded-lg text-[9px] font-black uppercase tracking-widest border border-slate-800">{owner.district || 'Hudud noma'lum'}</span>
+                <span className="px-3 py-1 bg-slate-900 text-slate-400 rounded-lg text-[9px] font-black uppercase tracking-widest border border-slate-800">{owner.district || "Hudud noma'lum"}</span>
                 <span className="px-3 py-1 bg-amber-500/10 text-amber-500 rounded-lg text-[9px] font-black uppercase tracking-widest border border-amber-500/20">Hamkor</span>
               </div>
             </div>
@@ -701,6 +709,264 @@ const ManageBookings = () => {
             </tbody>
           </table>
         </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const ManageVerifications = () => {
+  const [verifications, setVerifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState(null);
+  const [rejectNote, setRejectNote] = useState('');
+  const [showRejectModal, setShowRejectModal] = useState(null);
+  const [actionLoading, setActionLoading] = useState(false);
+
+  const fetchVerifications = () => {
+    setLoading(true);
+    api.get('/admin/verifications').then(r => setVerifications(r.data)).finally(() => setLoading(false));
+  };
+  useEffect(fetchVerifications, []);
+
+  const approve = async (id) => {
+    setActionLoading(true);
+    try {
+      await api.put(`/admin/verifications/${id}/approve`);
+      fetchVerifications();
+      setSelected(null);
+    } catch (e) { alert('Xatolik'); }
+    finally { setActionLoading(false); }
+  };
+
+  const reject = async (id) => {
+    if (!rejectNote.trim()) { alert("Rad etish sababini kiriting"); return; }
+    setActionLoading(true);
+    try {
+      await api.put(`/admin/verifications/${id}/reject`, { note: rejectNote });
+      setShowRejectModal(null);
+      setRejectNote('');
+      fetchVerifications();
+      setSelected(null);
+    } catch (e) { alert('Xatolik'); }
+    finally { setActionLoading(false); }
+  };
+
+  const statusBadge = (status) => {
+    if (status === 'approved') return { cls: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: 'Tasdiqlangan', icon: <BadgeCheck className="w-3 h-3" /> };
+    if (status === 'submitted') return { cls: 'bg-amber-500/10 text-amber-400 border-amber-500/20', label: 'Kutilmoqda', icon: <ShieldAlert className="w-3 h-3 animate-pulse" /> };
+    return { cls: 'bg-red-500/10 text-red-400 border-red-500/20', label: 'Rad etildi', icon: <ShieldX className="w-3 h-3" /> };
+  };
+
+  const pending = verifications.filter(v => v.status === 'submitted');
+  const others = verifications.filter(v => v.status !== 'submitted');
+
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center py-40 space-y-4">
+      <Loader2 className="w-12 h-12 animate-spin text-amber-400" />
+      <p className="text-slate-400 font-bold uppercase tracking-widest text-xs animate-pulse">Yuklanmoqda...</p>
+    </div>
+  );
+
+  return (
+    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-black text-white tracking-tight uppercase">Verifikatsiyalar</h1>
+        <p className="text-slate-400 font-bold mt-1 uppercase tracking-widest text-[10px]">
+          {pending.length} ta kutilmoqda • {verifications.length} ta jami
+        </p>
+      </div>
+
+      {verifications.length === 0 ? (
+        <div className="bg-slate-950/80 rounded-[2.5rem] border border-dashed border-slate-700 p-20 text-center">
+          <BadgeCheck className="w-16 h-16 text-slate-700 mx-auto mb-4" />
+          <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">Hali hujjat yuborilmagan</p>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {pending.length > 0 && (
+            <div className="space-y-3">
+              <p className="text-[10px] font-black text-amber-400 uppercase tracking-widest flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4" /> Ko'rib chiqish kutilmoqda ({pending.length})
+              </p>
+              {pending.map((v, i) => <VerificationRow key={v.id} v={v} onView={() => setSelected(v)} statusBadge={statusBadge} delay={i * 0.06} />)}
+            </div>
+          )}
+          {others.length > 0 && (
+            <div className="space-y-3">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Ko'rib chiqilganlar ({others.length})</p>
+              {others.map((v, i) => <VerificationRow key={v.id} v={v} onView={() => setSelected(v)} statusBadge={statusBadge} delay={i * 0.04} />)}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Detail Modal */}
+      <AnimatePresence>
+        {selected && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-950/90 backdrop-blur-md" onClick={() => setSelected(null)} />
+            <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="bg-slate-900 border border-slate-800 rounded-[3rem] shadow-2xl relative z-10 max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+            >
+              <div className="p-8 space-y-8">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h2 className="text-2xl font-black text-white uppercase tracking-tight">
+                      {selected.owner?.firstName} {selected.owner?.lastName}
+                    </h2>
+                    <p className="text-slate-500 font-bold text-xs mt-1 uppercase tracking-widest">
+                      {selected.owner?.email} • {selected.owner?.district}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {(() => { const b = statusBadge(selected.status); return (
+                      <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border ${b.cls}`}>
+                        {b.icon} {b.label}
+                      </span>
+                    ); })()}
+                    <button onClick={() => setSelected(null)} className="p-3 bg-slate-800 hover:bg-slate-700 rounded-2xl text-white transition-all">
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-5 bg-slate-950 border border-slate-800 rounded-2xl">
+                    <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest mb-1">JSHSHIR (PINFL)</p>
+                    <p className="text-lg font-black text-white font-mono">{selected.pinfl}</p>
+                  </div>
+                  <div className="p-5 bg-slate-950 border border-slate-800 rounded-2xl">
+                    <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest mb-1">TELEFON</p>
+                    <p className="text-lg font-black text-white">{selected.phone}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Yuborilgan hujjatlar</p>
+                  <div className="grid grid-cols-3 gap-4">
+                    {[
+                      { label: 'Passport', src: selected.passportPhoto },
+                      { label: "To'yxona hujjati", src: selected.hallDoc },
+                      { label: 'Passport bilan selfie', src: selected.selfieWithPassport },
+                    ].map(doc => (
+                      <div key={doc.label} className="space-y-2">
+                        <p className="text-[9px] font-black text-slate-600 uppercase tracking-widest">{doc.label}</p>
+                        <a href={doc.src?.startsWith('http') ? doc.src : `${API_URL}${doc.src}`} target="_blank" rel="noreferrer"
+                          className="block relative aspect-square rounded-2xl overflow-hidden border border-slate-800 hover:border-amber-500/40 transition-all group"
+                        >
+                          <img src={doc.src?.startsWith('http') ? doc.src : `${API_URL}${doc.src}`}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={e => e.target.src='https://via.placeholder.com/200x200?text=Rasm'} />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Eye className="w-6 h-6 text-white" />
+                          </div>
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {selected.adminNote && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl">
+                    <p className="text-[9px] font-black text-red-400 uppercase tracking-widest mb-1">Admin izohi</p>
+                    <p className="text-sm text-slate-300 font-bold">{selected.adminNote}</p>
+                  </div>
+                )}
+
+                {selected.status !== 'approved' && (
+                  <div className="flex gap-4 pt-2">
+                    <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                      onClick={() => approve(selected.id)} disabled={actionLoading}
+                      className="flex-1 flex items-center justify-center gap-2 py-4 bg-emerald-500 hover:bg-emerald-400 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-emerald-500/20 disabled:opacity-50"
+                    >
+                      {actionLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><CheckCircle className="w-5 h-5" /> Tasdiqlash</>}
+                    </motion.button>
+                    <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                      onClick={() => { setShowRejectModal(selected.id); }}
+                      className="flex-1 flex items-center justify-center gap-2 py-4 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/30 rounded-2xl font-black text-sm uppercase tracking-widest transition-all"
+                    >
+                      <ShieldX className="w-5 h-5" /> Rad etish
+                    </motion.button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Reject note modal */}
+      <AnimatePresence>
+        {showRejectModal && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-950/95 backdrop-blur-md" onClick={() => setShowRejectModal(null)} />
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-slate-900 border border-red-500/30 rounded-[2.5rem] shadow-2xl relative z-10 w-full max-w-md p-8 space-y-6"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-red-500/10 rounded-2xl">
+                  <MessageSquare className="w-6 h-6 text-red-400" />
+                </div>
+                <div>
+                  <h3 className="font-black text-white uppercase tracking-tight">Rad etish sababi</h3>
+                  <p className="text-xs text-slate-500 font-bold mt-0.5">Owner ko'radi</p>
+                </div>
+              </div>
+              <textarea
+                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-5 py-4 text-sm font-medium text-white placeholder-slate-600 outline-none focus:border-red-500/60 transition-all resize-none"
+                placeholder="Masalan: Passport rasmi noaniq, qayta yuboring..."
+                rows={4}
+                value={rejectNote}
+                onChange={e => setRejectNote(e.target.value)}
+                autoFocus
+              />
+              <div className="flex gap-3">
+                <button onClick={() => setShowRejectModal(null)}
+                  className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-400 rounded-2xl font-black text-xs uppercase tracking-widest transition-all">
+                  Bekor
+                </button>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                  onClick={() => reject(showRejectModal)} disabled={actionLoading}
+                  className="flex-1 py-3 bg-red-500 hover:bg-red-400 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all disabled:opacity-50"
+                >
+                  {actionLoading ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Rad Etish'}
+                </motion.button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
+
+const VerificationRow = ({ v, onView, statusBadge, delay }) => {
+  const b = statusBadge(v.status);
+  return (
+    <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay }}
+      className="flex items-center justify-between p-6 bg-slate-950 border border-slate-800 rounded-[2rem] hover:border-amber-500/20 transition-all group cursor-pointer"
+      onClick={onView}
+    >
+      <div className="flex items-center gap-5">
+        <div className={`p-3 rounded-2xl border ${b.cls}`}>{b.icon && <BadgeCheck className="w-5 h-5" />}</div>
+        <div>
+          <p className="font-black text-white uppercase text-sm">{v.owner?.firstName} {v.owner?.lastName}</p>
+          <p className="text-xs text-slate-500 font-bold mt-0.5">{v.owner?.email} • PINFL: {v.pinfl}</p>
+        </div>
+      </div>
+      <div className="flex items-center gap-4">
+        <div className="text-right hidden sm:block">
+          <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest">
+            {new Date(v.createdAt).toLocaleDateString('uz-UZ')}
+          </p>
+          {v.adminNote && <p className="text-[9px] text-red-400 font-bold mt-0.5 max-w-[120px] truncate">{v.adminNote}</p>}
+        </div>
+        <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border ${b.cls}`}>
+          {b.icon} {b.label}
+        </span>
+        <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-amber-400 transition-colors" />
       </div>
     </motion.div>
   );

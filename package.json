@@ -1,6 +1,9 @@
 {
   "name": "toyxona-root",
   "private": true,
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "build": "cd frontend && npm install && npm run build"
   }
