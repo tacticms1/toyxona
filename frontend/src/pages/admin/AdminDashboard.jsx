@@ -241,20 +241,25 @@ const StatCard = ({ label, value, icon: Icon, gradient, iconColor }) => (
 const ManageHalls = () => {
   const [halls, setHalls] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState('');
   const [search, setSearch] = useState('');
   const [filterDistrict, setFilterDistrict] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
-  const [sortOption, setSortOption] = useState('');
   const [selectedHall, setSelectedHall] = useState(null);
   const [hallBookings, setHallBookings] = useState([]);
   const navigate = useNavigate();
 
   const fetchHalls = async () => {
+    setLoading(true);
+    setFetchError('');
     try {
       const params = new URLSearchParams({ search, district: filterDistrict, status: filterStatus });
       const res = await api.get(`/admin/halls?${params.toString()}`);
       setHalls(res.data);
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error(err);
+      setFetchError(err.response?.data?.message || 'Serverdan ma\'lumot olishda xatolik');
+    }
     finally { setLoading(false); }
   };
 
@@ -295,17 +300,31 @@ const ManageHalls = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h1 className="text-3xl font-black text-white tracking-tight uppercase">To'yxonalar</h1>
-          <p className="text-slate-400 font-bold mt-1 uppercase tracking-widest text-[10px]">Barcha ro'yxatdan o'tgan maskanlar</p>
+          <p className="text-slate-400 font-bold mt-1 uppercase tracking-widest text-[10px]">
+            Barcha maskanlar • {halls.length} ta ({halls.filter(h=>h.status==='tasdiqlanmagan').length} kutilmoqda)
+          </p>
         </div>
-        <motion.button 
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => navigate('/owner/register-hall')} 
-          className="flex items-center gap-2 px-8 py-4 bg-amber-500 text-black rounded-[2rem] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-amber-500/20"
-        >
-          <PlusCircle className="w-5 h-5" /> Yangi Qo'shish
-        </motion.button>
+        <div className="flex gap-3">
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+            onClick={fetchHalls}
+            className="flex items-center gap-2 px-6 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-[2rem] font-black text-[10px] uppercase tracking-widest border border-slate-700"
+          >
+            <RefreshCw className="w-4 h-4" /> Yangilash
+          </motion.button>
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/owner/register-hall')}
+            className="flex items-center gap-2 px-8 py-4 bg-amber-500 text-black rounded-[2rem] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-amber-500/20"
+          >
+            <PlusCircle className="w-5 h-5" /> Yangi Qo'shish
+          </motion.button>
+        </div>
       </div>
+
+      {fetchError && (
+        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-2xl text-red-400 text-sm font-bold flex items-center gap-3">
+          <XCircle className="w-5 h-5 flex-shrink-0" /> {fetchError}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-950/50 p-4 rounded-3xl border border-slate-800">
         <div className="relative group">
