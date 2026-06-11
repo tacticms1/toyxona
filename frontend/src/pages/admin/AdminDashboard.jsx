@@ -380,9 +380,9 @@ const ManageHalls = () => {
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <img 
-                          src={hall.images[0]?.startsWith('http') ? hall.images[0] : `${api.defaults.baseURL.replace('/api', '')}${hall.images[0]}`} 
-                          className="w-full h-full object-cover" 
+                        <img
+                          src={hall.images?.[0]?.startsWith('http') ? hall.images[0] : hall.images?.[0] ? `${api.defaults.baseURL.replace('/api', '')}${hall.images[0]}` : 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=400&q=80'}
+                          className="w-full h-full object-cover"
                           onError={(e) => e.target.src = 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=400&q=80'}
                         />
                       </div>
